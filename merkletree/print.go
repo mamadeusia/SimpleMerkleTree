@@ -6,11 +6,19 @@ import (
 )
 
 func PrintTree(node Node) {
-	printNode(node, 0)
+	if node.right == node.left { //for the case that size of addresses==1
+		PrintRoot(node)
+	} else {
+		printNode(node, 0)
+	}
 }
 
 func PrintRoot(node Node) {
-	fmt.Printf("0x%s \n", node.hash())
+	if node.right == node.left { //for the case that size of addresses==1
+		fmt.Printf("0x%s \n", node.right.hash())
+	} else {
+		fmt.Printf("0x%s \n", node.hash())
+	}
 }
 
 func PrintfProof(proofs []Hashable) {
@@ -19,10 +27,10 @@ func PrintfProof(proofs []Hashable) {
 		fmt.Printf("\"0x%s\"", proof.hash())
 		if i != len(proofs)-1 {
 			fmt.Printf(",")
-		} else {
-			fmt.Printf("]\n")
 		}
 	}
+	fmt.Printf("]\n")
+
 }
 
 func printNode(node Node, level int) {

@@ -1,30 +1,32 @@
 
 # Simple Merkle Tree for Solidity and Golang
 
-This repository consists of simple golang merkle tree and related solidity code that 
-you can work with it . 
+This repository contains On-chain merkle tree creator. You can add address to onchain and update the merkleRoot of the contract by calling `addToList(address newAddress)` that is only accessible by owner or admin of the contract.
 
+Also you can find indexed variables in the log as I emitted 
+`event NewRoot(address indexed NewAddress,bytes32 indexed NewRoot)`
+in each call to `addToList` function . 
 
+Offchain side is responsible for `GetProof` as main functionality, also you can `PrintRoot` and `PrintTree` for visualization. 
+ 
 
-## Usage
+## OffChain usage
 
 Add you're addresses that you want to have in the tree 
-in `main.go` . after that you can call the `PrintProof` and `PrintRoot` to 
-use in solidity contract . you can also see the structure of tree by 
-`PrintTree` method . 
+in `main.go` . 
+
 
 ```bash
     go run main.go
 ```
     
-## Demo
+## Onchain usage 
+You can use remixd to test the functionality of solidity code in remix . 
 
-Find the deployed smart contract on BSC_Testnet in the address below.
-`0x97c34750E7FDfE7777d953B7B3f3305599E293a2`.
-this is the private key for the address `0xE7A817bbD2A4D30058b7fd9041ABA1Db3552cd8c`
-`95889a9207b16aa6735c9c5825c70214e775fcf33978f51ade7f47984a877aae`
-you can use it to check the functionality . 
-addresses that used in creating current root are in `main.go`.
+
+## Hints 
+There are some optimization that can be done on contract side 
+like using struct and use of smaller uint like `uint32` to optimize the usage of storage. 
 ## Authors
 
 - [@mamadeusia](https://github.com/mamadeusia)

@@ -12,7 +12,7 @@ func BuildTree(addresses []string) Node {
 	}
 	var output []Hashable
 	if len(nodes) == 1 {
-		return Node{}
+		return nodes[0].(Node)
 	} else {
 		output = buildTree(nodes)
 	}

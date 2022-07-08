@@ -2,11 +2,13 @@ package merkletree
 
 func GetProof(l string, leafs []string) []Hashable {
 	var j int
+	if len(leafs) == 1 { //for the case on one leaf
+		return []Hashable{}
+	}
 	for i, val := range leafs {
 		if l == val {
 			j = i
 		}
-
 	}
 	var output []Hashable
 	var nodes []Node
@@ -30,7 +32,9 @@ func GetProof(l string, leafs []string) []Hashable {
 			nodes = append(nodes, node)
 		}
 	}
-
+	if len(nodes) == 1 {
+		return []Hashable{output[0]}
+	}
 	return appendProof(nodes, output)
 }
 
