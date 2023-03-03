@@ -1,32 +1,39 @@
 package merkletree
 
+import "strings"
+
 func GetProof(l string, leafs []string) []Hashable {
+	var leafsTrimmed []string
+	for _, leaf := range leafs {
+		leafsTrimmed = append(leafsTrimmed, strings.TrimPrefix(leaf, "0x"))
+	}
+
 	var j int
-	if len(leafs) == 1 { //for the case on one leaf
+	if len(leafsTrimmed) == 1 { //for the case on one leaf
 		return []Hashable{}
 	}
-	for i, val := range leafs {
+	for i, val := range leafsTrimmed {
 		if l == val {
 			j = i
 		}
 	}
 	var output []Hashable
 	var nodes []Node
-	for i := 0; i < len(leafs); i += 2 {
-		if i+1 < len(leafs) {
-			node := NewNode(Leaf(leafs[i]), Leaf(leafs[i+1]))
+	for i := 0; i < len(leafsTrimmed); i += 2 {
+		if i+1 < len(leafsTrimmed) {
+			node := NewNode(Leaf(leafsTrimmed[i]), Leaf(leafsTrimmed[i+1]))
 			if j == i {
-				output = append(output, Leaf(leafs[i+1]))
+				output = append(output, Leaf(leafsTrimmed[i+1]))
 				node.inProofTree = true
 			} else if j == i+1 {
-				output = append(output, Leaf(leafs[i]))
+				output = append(output, Leaf(leafsTrimmed[i]))
 				node.inProofTree = true
 			}
 			nodes = append(nodes, node)
 		} else {
-			node := NewNode(Leaf(leafs[i]), Leaf(leafs[i]))
+			node := NewNode(Leaf(leafsTrimmed[i]), Leaf(leafsTrimmed[i]))
 			if j == i {
-				output = append(output, Leaf(leafs[i]))
+				output = append(output, Leaf(leafsTrimmed[i]))
 				node.inProofTree = true
 			}
 			nodes = append(nodes, node)

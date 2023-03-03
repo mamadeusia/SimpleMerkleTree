@@ -1,13 +1,19 @@
 package merkletree
 
+import "strings"
+
 func BuildTree(addresses []string) Node {
+	var addressesTrimmed []string
+	for _, address := range addresses {
+		addressesTrimmed = append(addressesTrimmed, strings.TrimPrefix(address, "0x"))
+	}
 
 	var nodes []Hashable
 	for i := 0; i < len(addresses); i += 2 {
 		if i+1 < len(addresses) {
-			nodes = append(nodes, NewNode(Leaf(addresses[i]), Leaf(addresses[i+1])))
+			nodes = append(nodes, NewNode(Leaf(addressesTrimmed[i]), Leaf(addressesTrimmed[i+1])))
 		} else {
-			nodes = append(nodes, NewNode(Leaf(addresses[i]), Leaf(addresses[i])))
+			nodes = append(nodes, NewNode(Leaf(addressesTrimmed[i]), Leaf(addressesTrimmed[i])))
 		}
 	}
 	var output []Hashable
