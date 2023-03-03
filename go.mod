@@ -1,4 +1,4 @@
-module github.com/mamadeusia/keccak256MerkleTreeGo
+module github.com/mamadeusia/simplemerkletree
 
 go 1.19
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mamadeusia/keccak256MerkleTreeGo/merkletree"
+	"github.com/mamadeusia/simplemerkletree/merkletree"
 )
 
 func main() {
