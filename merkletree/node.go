@@ -16,25 +16,25 @@ type Node struct {
 type EmptyLeaf struct {
 }
 
-func (b Leaf) hash() Hash {
+func (b Leaf) GetHash() Hash {
 	data, _ := hex.DecodeString(string(b))
-	return hash([]byte(data)[:])
+	return GetHash([]byte(data)[:])
 }
 
-func (_ EmptyLeaf) hash() Hash {
+func (_ EmptyLeaf) GetHash() Hash {
 	return [32]byte{}
 }
 
-func (n Node) hash() Hash {
+func (n Node) GetHash() Hash {
 	var l, r [32]byte
-	l = n.left.hash()
-	r = n.right.hash()
-	return hash(append(l[:], r[:]...))
+	l = n.left.GetHash()
+	r = n.right.GetHash()
+	return GetHash(append(l[:], r[:]...))
 }
 
 func NewNode(left Hashable, right Hashable) Node {
-	leftHash := left.hash()
-	rightHash := right.hash()
+	leftHash := left.GetHash()
+	rightHash := right.GetHash()
 	g := bytes.Compare(leftHash[:], rightHash[:])
 	if g <= 0 {
 		return Node{left: left, right: right}
@@ -48,8 +48,8 @@ type LeafSorted []Leaf
 func (l LeafSorted) Len() int { return len(l) }
 
 func (l LeafSorted) Less(i, j int) bool {
-	left := l[i].hash()
-	right := l[j].hash()
+	left := l[i].GetHash()
+	right := l[j].GetHash()
 	g := bytes.Compare(left[:], right[:])
 	if g <= 0 {
 		return true

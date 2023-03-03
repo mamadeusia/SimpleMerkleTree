@@ -7,7 +7,7 @@ import (
 )
 
 type Hashable interface {
-	hash() Hash
+	GetHash() Hash
 }
 
 type Hash [32]byte
@@ -15,7 +15,7 @@ type Hash [32]byte
 func (h Hash) String() string {
 	return hex.EncodeToString(h[:])
 }
-func hash(data []byte) Hash {
+func GetHash(data []byte) Hash {
 	hash := sha3.NewLegacyKeccak256()
 	//hash.Write([]byte{0xcc})
 	hash.Write(data)
